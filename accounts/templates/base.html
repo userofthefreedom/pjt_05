@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Stock Community{% endblock %}</title>
+
   <style>
     body {
       margin: 0;
@@ -15,8 +16,56 @@
       background-color: #1f2937;
       color: white;
       padding: 16px 32px;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      color: white;
+      text-decoration: none;
       font-size: 20px;
       font-weight: bold;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-user {
+      font-weight: bold;
+      color: #e5e7eb;
+    }
+
+    .logout-form {
+      margin: 0;
+    }
+
+    .nav-button {
+      width: auto;
+      padding: 8px 12px;
+      background-color: #374151;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      background-color: #4b5563;
     }
 
     .container {
@@ -88,44 +137,61 @@
     button:hover {
       background-color: #1d4ed8;
     }
-.checkbox-list {
-  margin-bottom: 16px;
-}
 
-.checkbox-list .field-label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
+    .checkbox-list {
+      margin-bottom: 16px;
+    }
 
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
+    .checkbox-list .field-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
 
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-weight: normal;
-  cursor: pointer;
-}
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
 
-.checkbox-item input[type="checkbox"] {
-  width: auto;
-  margin: 0;
-  padding: 0;
-}
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-weight: normal;
+      cursor: pointer;
+    }
 
+    .checkbox-item input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
+
 <body>
   <div class="navbar">
-    Stock Community
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Stock Community</a>
+
+      <div class="nav-menu">
+        {% if request.user.is_authenticated %}
+          <span class="nav-user">{{ request.user.nickname }}님</span>
+
+          <form action="{% url 'accounts:logout' %}" method="POST" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="nav-button">로그아웃</button>
+          </form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">로그인</a>
+          <a href="{% url 'accounts:signup' %}">회원가입</a>
+        {% endif %}
+      </div>
+    </div>
   </div>
 
   {% block content %}
