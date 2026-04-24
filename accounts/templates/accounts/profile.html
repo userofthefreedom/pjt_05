@@ -174,12 +174,12 @@
       </div>
 
       <div class="profile-actions btn-group">
-        <button type="button" class="btn btn-secondary" disabled>
-          비밀번호 수정 준비 중
-        </button>
+        <a href="{% url 'accounts:password_change' %}" class="btn">
+          비밀번호 변경
+        </a>
 
         <button type="button" class="btn" disabled>
-          투자 성향 분석 준비 중
+          투자 성향 분석
         </button>
       </div>
     </div>

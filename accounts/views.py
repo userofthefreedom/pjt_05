@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import update_session_auth_hash, login, logout
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import SignupForm
+from django.contrib.auth.decorators import login_required
 
 
 def signup(request):
@@ -48,3 +49,22 @@ def logout_view(request):
         logout(request)
 
     return redirect("/")
+
+
+@login_required
+def password_change(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect("/")
+    else:
+        form = PasswordChangeForm(request.user)
+
+    context = {
+        "form": form,
+    }
+
+    return render(request, "accounts/password_change.html", context)
