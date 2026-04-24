@@ -21,14 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # .env 로드 (OPENAI_API_KEY 등)
 load_dotenv(BASE_DIR / ".env")
 
-# [심화] LLM 부적절 댓글 필터링 관련
-# LLM 공급자 선택 (OPENAI / UPSTAGE)
-# MODE = os.getenv("MODE", "OPENAI").strip().upper()
+# [심화] LLM 투자 성향 분석 관련
+# MODE 값은 OPENAI 또는 UPSTAGE 중 하나를 사용한다.
+MODE = os.getenv("MODE", "UPSTAGE").strip().upper()
 
-# # 요청 포맷에서 OPENAI_APIK_KEY 키명을 사용하므로 그대로 지원.
-# # 호환을 위해 기존 OPENAI_API_KEY 키명도 fallback으로 허용.
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
-# UPSTAGE_API_KEY = os.getenv("UPSTAGE_API_KEY", "").strip()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini").strip()
+
+UPSTAGE_API_KEY = os.getenv("UPSTAGE_API_KEY", "").strip()
+UPSTAGE_MODEL = os.getenv("UPSTAGE_MODEL", "solar-mini").strip()
 
 
 # Quick-start development settings - unsuitable for production
