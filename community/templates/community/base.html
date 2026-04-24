@@ -71,13 +71,45 @@
 
     .header-nav {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       align-items: center;
     }
 
-    .header-nav a {
+    .header .header-nav a {
       font-size: 0.875rem;
       font-weight: 600;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .header .header-nav a:hover {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .header-nav .nav-user {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .header-nav .logout-form {
+      margin: 0;
+    }
+
+    .header-nav .nav-logout-button {
+      padding: 0;
+      border: none;
+      background: none;
+      color: var(--color-text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .header-nav .nav-logout-button:hover {
+      color: var(--color-primary);
     }
 
     .header a {
@@ -294,7 +326,16 @@
 
         <div class="header-nav">
           {% if user.is_authenticated %}
+            <span class="nav-user">
+              {{ user.nickname|default:user.username }}님
+            </span>
+
             <a href="{% url 'accounts:profile' %}">프로필</a>
+
+            <form action="{% url 'accounts:logout' %}" method="post" class="logout-form">
+              {% csrf_token %}
+              <button type="submit" class="nav-logout-button">로그아웃</button>
+            </form>
           {% else %}
             <a href="{% url 'accounts:login' %}">로그인</a>
             <a href="{% url 'accounts:signup' %}">회원가입</a>
