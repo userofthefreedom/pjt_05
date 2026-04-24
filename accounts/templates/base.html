@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Stock Community{% endblock %}</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f6f8;
+      color: #222;
+    }
+
+    .navbar {
+      background-color: #1f2937;
+      color: white;
+      padding: 16px 32px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 420px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      padding: 8px 0;
+      border: none;
+    }
+
+    .helptext {
+      display: block;
+      font-size: 12px;
+      color: #777;
+      margin-top: -10px;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      font-size: 13px;
+      color: #666;
+      padding-left: 20px;
+    }
+
+    .errorlist {
+      color: #dc2626;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    Stock Community
+  </div>
+
+  {% block content %}
+  {% endblock %}
+</body>
+</html>
