@@ -27,18 +27,25 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect("/")
 
+    next_url = request.GET.get("next") or request.POST.get("next")
+
     if request.method == "POST":
         form = AuthenticationForm(request, request.POST)
 
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+
+            if next_url:
+                return redirect(next_url)
+
             return redirect("/")
     else:
         form = AuthenticationForm()
 
     context = {
         "form": form,
+        "next": next_url,
     }
 
     return render(request, "accounts/login.html", context)
@@ -58,8 +65,11 @@ def password_change(request):
 
         if form.is_valid():
             user = form.save()
+
+            # 비밀번호 변경 후에도 현재 로그인 세션을 유지한다.
             update_session_auth_hash(request, user)
-            return redirect("/")
+
+            return redirect("accounts:password_change_done")
     else:
         form = PasswordChangeForm(request.user)
 
@@ -68,3 +78,8 @@ def password_change(request):
     }
 
     return render(request, "accounts/password_change.html", context)
+
+
+@login_required
+def password_change_done(request):
+    return render(request, "accounts/password_change_done.html")
