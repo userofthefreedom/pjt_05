@@ -1,9 +1,14 @@
 from django.urls import path
 from . import views
+from . import profile_views
 
 app_name = "accounts"
 
 urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("login/", views.login_view, name="login"),
+
+
+
+    path("profile/", profile_views.profile, name="profile"),
 ]
