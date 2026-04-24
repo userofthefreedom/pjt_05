@@ -63,6 +63,21 @@
       max-width: 960px;
       margin: 0 auto;
       padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .header-nav a {
+      font-size: 0.875rem;
+      font-weight: 600;
     }
 
     .header a {
@@ -276,6 +291,15 @@
     <header class="header">
       <div class="header-inner">
         <a href="{% url 'community:asset_list' %}">🏦 금융 자산 커뮤니티</a>
+
+        <div class="header-nav">
+          {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}">프로필</a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}">로그인</a>
+            <a href="{% url 'accounts:signup' %}">회원가입</a>
+          {% endif %}
+        </div>
       </div>
     </header>
     <main class="main">
