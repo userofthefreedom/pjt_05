@@ -36,9 +36,18 @@
       {{ form.nickname.errors }}
     </div>
 
-    <div>
-      <label for="{{ form.interest_stocks.id_for_label }}">관심 종목</label>
-      {{ form.interest_stocks }}
+    <div class="checkbox-list">
+      <label class="field-label">관심 종목</label>
+
+      <div class="checkbox-grid">
+        {% for checkbox in form.interest_stocks %}
+          <label class="checkbox-item">
+            {{ checkbox.tag }}
+            <span>{{ checkbox.choice_label }}</span>
+          </label>
+        {% endfor %}
+      </div>
+
       {{ form.interest_stocks.errors }}
     </div>
 
