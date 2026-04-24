@@ -1,0 +1,201 @@
+{% extends "community/base.html" %}
+
+{% block title %}내 프로필 | 금융 자산 커뮤니티{% endblock %}
+
+{% block extra_css %}
+<style>
+  .profile-card {
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-layout {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .profile-image-wrap {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-image-empty {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-row {
+    margin-bottom: 0.9rem;
+  }
+
+  .profile-label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .stock-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .stock-badge {
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  .profile-actions {
+    margin-top: 1.25rem;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .post-item {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+  }
+
+  .post-meta {
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+  }
+
+  .empty-box {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+  }
+
+  @media (max-width: 640px) {
+    .profile-layout {
+      flex-direction: column;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<p class="breadcrumb">
+  <a href="{% url 'community:asset_list' %}">자산 목록</a> &gt; 프로필
+</p>
+
+<h1 class="page-title">내 프로필</h1>
+
+<section class="profile-card">
+  <div class="profile-layout">
+    <div class="profile-image-wrap">
+      {% if profile_user.profile_image %}
+        <img
+          src="{{ profile_user.profile_image.url }}"
+          alt="{{ profile_user.username }}의 프로필 이미지"
+          class="profile-image"
+        >
+      {% else %}
+        <div class="profile-image-empty">
+          프로필 이미지 없음
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="profile-info">
+      <div class="profile-row">
+        <span class="profile-label">아이디</span>
+        <span>{{ profile_user.username }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">닉네임</span>
+        <span>{{ profile_user.nickname }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">관심 종목</span>
+
+        {% if interest_stocks %}
+          <ul class="stock-list">
+            {% for stock in interest_stocks %}
+              <li class="stock-badge">{{ stock }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <span class="text-muted">등록된 관심 종목이 없습니다.</span>
+        {% endif %}
+      </div>
+
+      <div class="profile-actions btn-group">
+        <a href="#" class="btn btn-secondary">비밀번호 수정</a>
+        <a href="#" class="btn">투자 성향 분석 보기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">내가 작성한 게시글</h2>
+
+  {% if my_posts %}
+    <ul class="post-list">
+      {% for post in my_posts %}
+        <li class="post-item">
+          <a href="{% url 'community:post_detail' post.asset_id post.id %}">
+            {{ post.title }}
+          </a>
+
+          <p class="text-muted post-meta mb-0">
+            {{ post.asset_id }} · {{ post.created_at|date:"Y-m-d H:i" }}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="empty-box">
+      아직 작성한 게시글이 없습니다.
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}
